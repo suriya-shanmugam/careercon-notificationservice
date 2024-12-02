@@ -18,6 +18,36 @@ const addCompany = async (companyData) => {
   }
 };
 
+
+const addFollowerToCompany = async (companyID, userID) => {
+  try {
+    // Step 1: Find the company by ID
+    const company = await Company.findOne({companyID});
+    if (!company) {
+      throw new Error('Company not found');
+    }
+
+    // Step 2: Check if the user already follows this company
+    const isAlreadyFollower = company.followers.some(followerId => followerId.toString() === userID);
+    if (isAlreadyFollower) {
+      throw new Error('User is already a follower');
+    }
+
+    // Step 3: Add the user as a follower by pushing the userID (FollowerID) to the company’s followers array
+    company.followers.push(userID);
+
+    // Step 4: Save the updated company document
+    await company.save();
+
+    return company;  // Return the updated company
+  } catch (err) {
+    console.error('Error adding follower to company:', err);
+    throw err;
+  }
+};
+
+
+/*
 // Function to append a follower to a company
 const addFollowerToCompany = async (companyID, userID) => {
   try {
@@ -39,7 +69,7 @@ const addFollowerToCompany = async (companyID, userID) => {
     console.error('Error appending follower to company:', err);
     throw err;
   }
-};
+}; */
 
 // Function to register a user's device for push notifications
 const registerUserDevice = async (userID, deviceData) => {
