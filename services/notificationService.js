@@ -17,10 +17,12 @@ setVapidDetails(
 // Function to send push notifications
 const sendPushNotification = async (subscription, message) => {
   try {
-    /*const msg = {
-      message:message,
-      url: "https://yahoo.com"
-    }*/
+    console.log(message)
+    console.log(message.companyName)
+    const msg = {
+      title: `${message.companyName} has posted a New Job ${message.jobTitle}`,
+      url: message.jobLink
+    }
 
     // Ensure the subscription object has the correct field names expected by web-push
     const pushSubscription = {
@@ -32,9 +34,9 @@ const sendPushNotification = async (subscription, message) => {
     };
 
     console.log(pushSubscription); // To verify the structure of the subscription
-
+    console.log(msg)
     // Send the notification using web-push
-    await sendNotification(pushSubscription, JSON.stringify(message));
+    await sendNotification(pushSubscription, JSON.stringify(msg));
     console.log("Push notification sent successfully");
   } catch (err) {
     console.error("Error sending push notification:", err);
@@ -44,8 +46,10 @@ const sendPushNotification = async (subscription, message) => {
 const sendNotificationsToCompanyFollowers = async (companyID, message) => {
   try {
     
+   
     const company = await Company.findOne({ companyID });
     console.log(company);
+    message.companyName = company.companyName;
     const followerIds = company.followers;
     const users = await User.find({ userID: { $in: followerIds } });
 
