@@ -13,6 +13,16 @@ import { startEventConsumer } from './utils/eventConsumer.js';
 
 const app = express();
 
+//import webPush from 'web-push';
+
+// Generate VAPID keys
+//const vapidKeys = webPush.generateVAPIDKeys();
+
+//console.log('Public Key:', vapidKeys.publicKey);
+//console.log('Private Key:', vapidKeys.privateKey);
+
+
+
 // Enable CORS for all routes
 app.use(cors());
 
@@ -80,7 +90,7 @@ connectToRabbitMQ();
 
 
 // Start the server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

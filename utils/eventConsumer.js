@@ -10,7 +10,7 @@ import { handleCompanyFollowed } from "../handlers/companyFollowedHandler.js";
  */
 export const startEventConsumer = async () => {
   try {
-    const connection = await amqp.connect("amqp://localhost");
+    const connection = await amqp.connect("amqps://suriya:vanakkamdaMapla$2@b-de320db7-c51c-455e-b608-43f1e3965ad1.mq.us-east-2.amazonaws.com:5671");
     const channel = await connection.createChannel();
 
     const queue = "events_queue"; // Same queue from which events are published
